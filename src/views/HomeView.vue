@@ -65,13 +65,13 @@ const init = async () => {
                 infowindow.setContent(content);
                 infowindow.open(map, marker);
             };
-        })(marker, item.title, infowindow));
+        })(marker, `${item.title}`, infowindow));
 
         google.maps.event.addListener(marker, 'mouseout', ((marker, content, infowindow) => {
             return function () {
                 infowindow.close(map, marker);
             };
-        })(marker, item.title, infowindow));
+        })(marker, `${item.title}`, infowindow));
     }
 };
 
