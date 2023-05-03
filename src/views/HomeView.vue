@@ -5,6 +5,14 @@ import axios from 'axios';
 
 const container = ref();
 
+const delay = () => {
+    return new Promise(function (resolve,) {
+        setTimeout(function () {
+            resolve();
+        }, 100);
+    });
+}
+
 const getList = async () => {
     const res = await axios({
         method: 'get',
@@ -29,7 +37,7 @@ const init = async () => {
             lat: 0,
             lng: 0
         },
-        zoom: 12
+        zoom: 10
     };
     const map = new google.maps.Map(container.value, mapOptions);
 
@@ -42,6 +50,8 @@ const init = async () => {
         if (!item.address) {
             continue;
         }
+        await delay();
+
         const infowindow = new google.maps.InfoWindow({});
 
         marker = new google.maps.Marker({ map });
@@ -50,6 +60,7 @@ const init = async () => {
         try {
             result = await geocoder.geocode({ address: item.address });
         } catch (e) {
+            console.log(e);
             console.log(`${item.title} not found.`);
             continue;
         }
@@ -57,21 +68,33 @@ const init = async () => {
         marker.setPosition(results[0].geometry.location);
         marker.setMap(map);
 
+        const lat = marker.getPosition().lat();
+        const lng = marker.getPosition().lng();
+        const url = `https://www.google.com/maps/search/?api=1&query=${lat}%2C${lng}`;
+
         bounds.extend(marker.position);
         map.fitBounds(bounds);
+
+        const content = `${item.title}<br />${item.address}`;
 
         google.maps.event.addListener(marker, 'mouseover', ((marker, content, infowindow) => {
             return function () {
                 infowindow.setContent(content);
                 infowindow.open(map, marker);
             };
-        })(marker, `${item.title}`, infowindow));
+        })(marker, content, infowindow));
 
-        google.maps.event.addListener(marker, 'mouseout', ((marker, content, infowindow) => {
+        google.maps.event.addListener(marker, 'mouseout', ((marker, infowindow) => {
             return function () {
                 infowindow.close(map, marker);
             };
-        })(marker, `${item.title}`, infowindow));
+        })(marker, infowindow));
+
+        google.maps.event.addListener(marker, 'click', ((url) => {
+            return function () {
+                window.open(url, '_blank');
+            };
+        })(url));
     }
 };
 
