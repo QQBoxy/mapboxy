@@ -46,7 +46,10 @@ const init = async () => {
 
     bounds = new google.maps.LatLngBounds();
 
+    const mapItems = [];
+
     for (let item of list) {
+        // for (let item of [list[0], list[1]]) {
         if (!item.address) {
             continue;
         }
@@ -75,26 +78,19 @@ const init = async () => {
         bounds.extend(marker.position);
         map.fitBounds(bounds);
 
-        const content = `${item.title}<br />${item.address}`;
+        const content = `<span style="font-weight: 500;font-size: 14px;">${item.title}</span><br /><span style="font-weight: 500;font-size: 13px;">${item.address}</span><br /><a href="${url}" target="_blank">在 Google 地圖上查看</a>`;
 
-        google.maps.event.addListener(marker, 'mouseover', ((marker, content, infowindow) => {
+        mapItems.push({ infowindow, marker });
+
+        google.maps.event.addListener(marker, 'click', ((marker, content, infowindow, mapItems) => {
             return function () {
+                for (let item of mapItems) {
+                    item.infowindow.close(map, item.marker);
+                }
                 infowindow.setContent(content);
                 infowindow.open(map, marker);
             };
-        })(marker, content, infowindow));
-
-        google.maps.event.addListener(marker, 'mouseout', ((marker, infowindow) => {
-            return function () {
-                infowindow.close(map, marker);
-            };
-        })(marker, infowindow));
-
-        google.maps.event.addListener(marker, 'click', ((url) => {
-            return function () {
-                window.open(url, '_blank');
-            };
-        })(url));
+        })(marker, content, infowindow, mapItems));
     }
 };
 
