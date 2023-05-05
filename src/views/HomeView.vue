@@ -49,7 +49,6 @@ const init = async () => {
     const mapItems = [];
 
     for (let item of list) {
-        // for (let item of [list[0], list[1]]) {
         if (!item.address) {
             continue;
         }

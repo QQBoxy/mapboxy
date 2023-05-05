@@ -1,14 +1,12 @@
 # mapboxy
 
-This template should help get you started developing with Vue 3 in Vite.
+MapBoxy is a simple tool to read API addresses and display markers on the map.
 
-## Recommended IDE Setup
+Demo: https://qqboxy.github.io/mapboxy/
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+![](screenshot.png)
 
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+## 
 
 ## Project Setup
 
