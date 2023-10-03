@@ -16,7 +16,7 @@ const delay = () => {
 const getList = async () => {
     const res = await axios({
         method: 'get',
-        url: "https://script.google.com/macros/s/AKfycbz3blBPcJRuEIfUeM-IWzOVsiP4PYDkK2S7wkmtO7ZOaCtAAxh7UYZH9Ia-eGgTK_NlRg/exec?method=read_all",
+        url: "https://script.google.com/macros/s/AKfycbwp5P2o_fExHcFve5gOtwpshCAdVET87tQhk661ssbzanszE2HwjboYya_QO6xwsxujvQ/exec?method=read_all",
     });
     return res.data;
 };
